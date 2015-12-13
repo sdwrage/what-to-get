@@ -1,12 +1,7 @@
+var bcrypt = require('bcrypt');
 
 module.exports = {
-  autoPK: false,
   attributes: {
-    id: {
-      type: 'integer',
-      autoIncrement: true,
-      primaryKey: true
-    },
     firstName: {
       type: 'string',
       required: true
@@ -16,14 +11,44 @@ module.exports = {
       required: true
     },
     email: {
-      type: 'string',
-      email: true,
+      type: 'email',
       required: true,
       unique: true
     },
     password: {
       type: 'string',
       required: true
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj.password;
+      return obj;
     }
+  },
+
+  beforeCreate: function(values, cb) {
+    bcrypt.genSalt(10, function(err, salt) {
+      if (err) return cb(err);
+      bcrypt.hash(values.password, salt, function(err, hash) {
+        if(err) return cb(err);
+        values.password = hash;
+        cb();
+      });
+    });
+  },
+
+  beforeUpdate: function(valuesToUpdate, cb) {
+    if (!valuesToUpdate.hasOwnProperty('password')) {
+      return cb();
+    }
+    bcrypt.genSalt(10, function(err, salt) {
+      if (err) return cb(err);
+      bcrypt.hash(valuesToUpdate.password, salt, function(err, hash) {
+        if (err) return cb(err);
+        valuesToUpdate.password = hash;
+        cb();
+      });
+    });
   }
 };
