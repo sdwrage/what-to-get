@@ -1,0 +1,9 @@
+{
+  "apps": [{
+    "name": "what-to-get",
+    "script": "app.js",
+    "watch": true,
+    "ignore_watch": [".git", ".tmp", "views"],
+    "merge_logs": true
+  }]
+}
