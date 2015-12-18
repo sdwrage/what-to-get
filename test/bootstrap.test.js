@@ -7,7 +7,10 @@ before(function(done) {
   this.timeout(5000);
 
   Sails.lift({
+
     // Configuration for testing purposes.
+    port: 8080
+
   }, function(err, server) {
     sails = server;
     if (err) return done(err);
