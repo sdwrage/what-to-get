@@ -30,7 +30,7 @@
   "scripts": {
     "debug": "node debug app.js",
     "start": "node app.js",
-    "test": "mocha test/bootstrap.test.js test/unit/**/*.test.js"
+    "test": "istanbul cover _mocha test/bootstrap.test.js test/unit/**/*.js && istanbul report html"
   },
   "main": "app.js",
   "repository": {
@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/ddelrio1986/what-to-get#readme",
   "devDependencies": {
+    "istanbul": "^0.4.1",
     "supertest": "^1.1.0"
   }
 }
